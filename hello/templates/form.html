@@ -1,5 +1,6 @@
-<form action="{% url 'hello/vote' %}" method="post">
+<form action="/vote/" method="post">
     <label>ユーザー名</label>
+    {% csrf_token %}
     <input type="text" name="username">
     <input type="submit" value="Vote">
 </form>
