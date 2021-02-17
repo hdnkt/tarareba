@@ -6,6 +6,7 @@ import json
 from bs4 import BeautifulSoup
 
 from .models import Greeting
+import skr
 
 
 # Create your views here.
@@ -13,7 +14,7 @@ def index(request):
     # return HttpResponse('Hello from Python!')
 
     #レーティンググラフ
-    return render(request, "ratinggraph.html")
+    #return render(request, "ratinggraph.html")
 
     #ティーポット
     #r = requests.get('http://httpbin.org/status/418')
@@ -21,20 +22,22 @@ def index(request):
     #return HttpResponse('<pre>' + r.text + '</pre>')
 
     #
-    #return render(request,"form.html")
+    return render(request,"form.html")
 
 def vote(request):
-    tmp = request.POST["username"]
+    name = request.POST["username"]
     #該当ユーザーの履歴をjsonでゲット
     #r = requests.get('https://atcoder.jp/users/'+tmp+'/history/json').json()
 
-    #すくれいびんぐ
-    site=requests.get("https://atcoder.jp/users/"+tmp)
-    data = BeautifulSoup(site.text,"html.parser")
+    #スクレイビング
+    #site=requests.get("https://atcoder.jp/users/"+tmp)
+    #data = BeautifulSoup(site.text,"html.parser")
 
-    ret = data.find_all("script")
+    tmp,ratedHis = skr.getdatas(name)
+    ans,ind=skr.maximizeRate(ratedHis)
+    final = skr.makeoutputDic(ans,ind,tmp)
 
-    return HttpResponse('<pre>'+str(ret[12])[27:-10]+'</pre>')
+    return render(request,"ratinggraph.html",{"value":final})
 
 
 def db(request):
