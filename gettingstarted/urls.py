@@ -18,5 +18,5 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
-    path("vote/",hello.vies.vote),
+    path("vote/",hello.views.vote),
 ]
