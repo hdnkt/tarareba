@@ -1,35 +1,13 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
-{% load static %}
 <html>
 <head>
-	<title>hdnkt</title>
+	<title>一度も冷えなかった{{name}}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="Content-Language" content="ja">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<meta name="format-detection" content="telephone=no">
-	<meta name="google-site-verification" content="nXGC_JxO0yoP1qBzMnYD_xgufO6leSLw1kyNo2HZltM" />
 
-	
-	<meta name="description" content="プログラミング初級者から上級者まで楽しめる、競技プログラミングコンテストサイト「AtCoder」。オンラインで毎週開催プログラミングコンテストを開催しています。競技プログラミングを用いて、客観的に自分のスキルを計ることのできるサービスです。">
-	<meta name="author" content="AtCoder Inc.">
-
-	<meta property="og:site_name" content="AtCoder">
-	
-	<meta property="og:title" content="hdnkt - AtCoder" />
-	<meta property="og:description" content="プログラミング初級者から上級者まで楽しめる、競技プログラミングコンテストサイト「AtCoder」。オンラインで毎週開催プログラミングコンテストを開催しています。競技プログラミングを用いて、客観的に自分のスキルを計ることのできるサービスです。" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://atcoder.jp/users/hdnkt" />
-	<meta property="og:image" content="https://img.atcoder.jp/assets/atcoder.png" />
-	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@atcoder" />
-	
-	<meta property="twitter:title" content="hdnkt - AtCoder" />
-
-	<link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/cfb85db/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/cfb85db/css/base.css">
-	<link rel="shortcut icon" type="image/png" href="//img.atcoder.jp/assets/favicon.png">
 	<link rel="apple-touch-icon" href="//img.atcoder.jp/assets/atcoder.png">
 	<script src="//img.atcoder.jp/public/cfb85db/js/lib/jquery-1.9.1.min.js"></script>
 	<script src="//img.atcoder.jp/public/cfb85db/js/lib/bootstrap.min.js"></script>
@@ -59,35 +37,26 @@
 
 	<div class="col-md-9 col-sm-12">
 		
-			<h3>コンテスト実績</h3>
+			<h3>一度も冷えなかった{{name}}</h3>
+			冷えた（参加前と比べてレートが下がった）コンテストを全てなかったことにした場合のレート推移をグラフに表示します。
 			<hr>
+
+			<form action="/vote/" method="post">
+				<label>ユーザー名</label>
+				{% csrf_token %}
+				<input type="text" name="username">
+				<input type="submit" value="Vote">
+			</form>
 			
-				<table class="dl-table">
-					<tr><th class="no-break">順位</th><td>4641st</td></tr>
-					<tr><th class="no-break">Rating</th><td><span class='user-cyan'>1384</span>
-						</td></tr>
-					<tr><th class="no-break">Rating最高値</th><td>
-						<span class='user-cyan'>1416</span>
-						<span class="gray">―</span>
-						<span class="bold">3 級</span>
-						
-							<span class="gray">(昇格まであと&#43;184)</span>
-						
-					</td></tr>
-					<tr><th class="no-break">コンテスト参加回数 <span class='glyphicon glyphicon-question-sign' aria-hidden='true' data-html='true' data-toggle='tooltip' title="Ratedコンテストのみ"></span></th><td>37</td></tr>
-					<tr><th class="no-break">最後に参加した日</th><td>2021/02/13</td></tr>
-				</table>
-			
-			
-				<div class="mt-2 mb-2" style="line-height: 0;">
-					<script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
+<div class="mt-2 mb-2" style="line-height: 0;">
+<script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
 <link href="//fonts.googleapis.com/css?family=Squada+One" rel="stylesheet" type="text/css">
 <canvas id="ratingStatus" width="640" height="80"></canvas><br>
 <canvas id="ratingGraph" width="640" height="360"></canvas>
 <a id="rating-graph-expand" class="btn btn-link btn-xs visible-lg-inline"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span></a><br>
-<script>var rating_history = "{{ final }}" ;</script>
+{{ final|json_script:"hello-data" }}
+<script>var rating_history = JSON.parse(document.getElementById('hello-data').textContent) ;</script>
 <script src="//img.atcoder.jp/public/cfb85db/js/rating-graph.js"></script>
-
 
 </body>
 </html>

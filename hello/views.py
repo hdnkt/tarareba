@@ -24,7 +24,10 @@ def index(request):
     return render(request,"form.html")
 
 def vote(request):
-    name = request.POST["username"]
+    try:
+        name = request.POST["username"]
+    except:
+        name = "hdnkt"
     #該当ユーザーの履歴をjsonでゲット
     #r = requests.get('https://atcoder.jp/users/'+tmp+'/history/json').json()
 
@@ -36,7 +39,7 @@ def vote(request):
     ans,ind=maximizeRate(ratedHis)
     final = makeoutputDic(ans,ind,tmp)
 
-    return render(request,"ratinggraph.html",{"final":final})
+    return render(request,"ratinggraph.html",{"final":final,"name":name})
 
 
 def db(request):

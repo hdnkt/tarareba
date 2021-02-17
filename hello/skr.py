@@ -13,7 +13,7 @@ def rejectReset(n):
     return 1200*(math.sqrt(1-0.81**n)/(1-0.9**n)-1)/(math.sqrt(19)-1)
 
 def getdatas(name):
-    site=requests.get("https://atcoder.jp/users/"+name)
+    site=requests.get("https://atcoder.jp/users/"+name+"?graph=rating")
     data = BeautifulSoup(site.text,"html.parser")
     #print(data)
     ret = data.find_all("script")
