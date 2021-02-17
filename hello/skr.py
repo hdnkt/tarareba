@@ -17,9 +17,11 @@ def getdatas(name):
     data = BeautifulSoup(site.text,"html.parser")
     #print(data)
     ret = data.find_all("script")
-
     his = requests.get('https://atcoder.jp/users/'+name+'/history/json').json()
     tmp = json.loads(str(ret[12])[27:-10])
+
+    for i in range(len(tmp)):
+        tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
 
     return tmp,onlyRated(his)
 

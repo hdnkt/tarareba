@@ -21,9 +21,10 @@ def index(request):
     #return HttpResponse('<pre>' + r.text + '</pre>')
 
     #
-    return render(request,"form.html")
+    return vote(request)
 
 def vote(request):
+    error = " "
     try:
         name = request.POST["username"]
     except:
@@ -35,11 +36,18 @@ def vote(request):
     #site=requests.get("https://atcoder.jp/users/"+tmp)
     #data = BeautifulSoup(site.text,"html.parser")
 
-    tmp,ratedHis = getdatas(name)
-    ans,ind=maximizeRate(ratedHis)
-    final = makeoutputDic(ans,ind,tmp)
+    try:
+        tmp,ratedHis = getdatas(name)
+        ans,ind=maximizeRate(ratedHis)
+        final = makeoutputDic(ans,ind,tmp)
+    except:
+        name="hdnkt"
+        tmp,ratedHis = getdatas(name)
+        ans,ind=maximizeRate(ratedHis)
+        final = makeoutputDic(ans,ind,tmp)
+        error = "入力された名前のユーザーは存在しません。"
 
-    return render(request,"ratinggraph.html",{"final":final,"name":name})
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error})
 
 
 def db(request):

@@ -35,18 +35,20 @@
 </script>
 <script type="text/javascript" src="https://cdn.d2-apps.net/js/tr.js" async></script>
 
+<center>
 	<div class="col-md-9 col-sm-12">
 		
 			<h3>一度も冷えなかった{{name}}</h3>
-			冷えた（参加前と比べてレートが下がった）コンテストを全てなかったことにした場合のレート推移をグラフに表示します。
+			これまで参加してきたコンテストのうち、冷えた（参加前と比べてレートが下がった）コンテストをなかったことにした場合のレート推移をグラフに表示します。<br>レートの計算は<a href= "https://qiita.com/anqooqie/items/92005e337a0d2569bdbd" >この記事</a>を参考にしました。
 			<hr>
 
 			<form action="/vote/" method="post">
 				<label>ユーザー名</label>
 				{% csrf_token %}
 				<input type="text" name="username">
-				<input type="submit" value="Vote">
+				<input type="submit" value="表示">
 			</form>
+			{{error}}
 			
 <div class="mt-2 mb-2" style="line-height: 0;">
 <script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
@@ -57,6 +59,8 @@
 {{ final|json_script:"hello-data" }}
 <script>var rating_history = JSON.parse(document.getElementById('hello-data').textContent) ;</script>
 <script src="//img.atcoder.jp/public/cfb85db/js/rating-graph.js"></script>
+
+</center>
 
 </body>
 </html>
