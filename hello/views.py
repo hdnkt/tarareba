@@ -4,9 +4,8 @@ import requests
 import os
 import json
 from bs4 import BeautifulSoup
-
 from .models import Greeting
-import .skr
+from .skr import getdatas,maximizeRate,makeoutputDic
 
 
 # Create your views here.
@@ -33,11 +32,11 @@ def vote(request):
     #site=requests.get("https://atcoder.jp/users/"+tmp)
     #data = BeautifulSoup(site.text,"html.parser")
 
-    tmp,ratedHis = .skr.getdatas(name)
-    ans,ind=.skr.maximizeRate(ratedHis)
-    final = .skr.makeoutputDic(ans,ind,tmp)
+    tmp,ratedHis = getdatas(name)
+    ans,ind=maximizeRate(ratedHis)
+    final = makeoutputDic(ans,ind,tmp)
 
-    return render(request,"ratinggraph.html",{"value":final})
+    return render(request,"ratinggraph.html",{"final":final})
 
 
 def db(request):
