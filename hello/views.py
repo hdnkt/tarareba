@@ -8,7 +8,9 @@ from .models import Greeting
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "ratinggraph.html")
+
+    #レーティンググラフ
+    #return render(request, "ratinggraph.html")
 
     #ティーポット
     #r = requests.get('http://httpbin.org/status/418')
@@ -16,8 +18,12 @@ def index(request):
     #return HttpResponse('<pre>' + r.text + '</pre>')
 
     #
-    #times = int(os.environ.get("TIMES",3))
-    #return HttpResponse("Hello! " * times)
+    return render(request,"form.html")
+
+def vote(request):
+    tmp = request.POST["username"]
+
+    return HttpResponse('<pre>' + tmp + '</pre>')
 
 
 def db(request):
