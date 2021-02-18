@@ -14,69 +14,29 @@ def index(request):
 
 def result(request,username):
     r = ""
-    error = ""
     name = username
     sex = "male"
-    try:
-        if sex =="female":
-            r = "r"
-            dic=manycontest()
-            tmp,ratedHis = getdatas(name,dic)
-            ans,ind=maximizeRate(tmp,ratedHis)
-            final = makeoutputDic(ans,ind,tmp)
-        else:
-            tmp,ratedHis = getdatasa(name)
-            ans,ind=maximizeRate(tmp,ratedHis)
-            final = makeoutputDic(ans,ind,tmp)
-    except:
-        name="hdnkt"
-        tmp,ratedHis = getdatasa(name)
-        ans,ind=maximizeRate(tmp,ratedHis)
-        final = makeoutputDic(ans,ind,tmp)
-        error = "入力された名前のユーザーは存在しません。"
-
-    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
+    return last(request,name,sex,r)
 
 def resultr(request,username):
-    r = ""
-    error = ""
+    r = "r"
     name = username
     sex = "female"
-    try:
-        if sex =="female":
-            r = "r"
-            dic=manycontest()
-            tmp,ratedHis = getdatas(name,dic)
-            ans,ind=maximizeRate(tmp,ratedHis)
-            final = makeoutputDic(ans,ind,tmp)
-        else:
-            tmp,ratedHis = getdatasa(name)
-            ans,ind=maximizeRate(tmp,ratedHis)
-            final = makeoutputDic(ans,ind,tmp)
-    except:
-        name="hdnkt"
-        tmp,ratedHis = getdatasa(name)
-        ans,ind=maximizeRate(tmp,ratedHis)
-        final = makeoutputDic(ans,ind,tmp)
-        error = "入力された名前のユーザーは存在しません。"
-
-    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
+    return last(request,name,sex,r)
 
 def vote(request):
-    r = ""
-    error = " "
+    name = "hdnkt"
+    sex = "male"
     try:
         name = request.POST["username"]
         sex = request.POST["sex"]
     except:
         name = "hdnkt"
         sex = "male"
-    #該当ユーザーの履歴をjsonでゲット
-    #r = requests.get('https://atcoder.jp/users/'+tmp+'/history/json').json()
+    return last(request,name,sex,"")
 
-    #スクレイビング
-    #site=requests.get("https://atcoder.jp/users/"+tmp)
-    #data = BeautifulSoup(site.text,"html.parser")
+def last(request,name,sex,r):
+    error = " "
 
     try:
         if sex =="female":
@@ -95,15 +55,16 @@ def vote(request):
         ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"
+    
+    highest = final[len(final)-1]["NewRating"]
+    real = tmp[len(tmp)-1]["NewRating"]
+    dist = "+"+str(highest-real) if highest-real >= 0 else str(highest-real)
 
-    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r,"highest":highest,"real":real,"dist":dist})
 
 
 def db(request):
-
     greeting = Greeting()
     greeting.save()
-
     greetings = Greeting.objects.all()
-
     return render(request, "db.html", {"greetings": greetings})
