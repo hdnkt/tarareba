@@ -5,7 +5,7 @@ import os
 import json
 from bs4 import BeautifulSoup
 from .models import Greeting
-from .skr import getdatas,maximizeRate,makeoutputDic,manycontest
+from .skr import getdatas,maximizeRate,makeoutputDic,manycontest,getdatasa
 
 
 # Create your views here.
@@ -24,12 +24,13 @@ def index(request):
     return vote(request)
 
 def vote(request):
-    dic=manycontest()
     error = " "
     try:
         name = request.POST["username"]
+        sex = request.POST["sex"]
     except:
         name = "hdnkt"
+        sex = "male"
     #該当ユーザーの履歴をjsonでゲット
     #r = requests.get('https://atcoder.jp/users/'+tmp+'/history/json').json()
 
@@ -38,12 +39,18 @@ def vote(request):
     #data = BeautifulSoup(site.text,"html.parser")
 
     try:
-        tmp,ratedHis = getdatas(name,dic)
-        ans,ind=maximizeRate(tmp,ratedHis)
-        final = makeoutputDic(ans,ind,tmp)
+        if sex =="female":
+            dic=manycontest()
+            tmp,ratedHis = getdatas(name,dic)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
+        else:
+            tmp,ratedHis = getdatasa(name)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
     except:
         name="hdnkt"
-        tmp,ratedHis = getdatas(name)
+        tmp,ratedHis = getdatasa(name)
         ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"

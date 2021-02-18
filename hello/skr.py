@@ -38,6 +38,23 @@ def getdatas(name,dic):
 
     return tmp,onlyRated(his)
 
+def getdatasa(name):
+    site=requests.get("https://atcoder.jp/users/"+name+"?graph=rating")
+    data = BeautifulSoup(site.text,"html.parser")
+    #print(data)
+    ret = data.find_all("script")
+    his = requests.get('https://atcoder.jp/users/'+name+'/history/json').json()
+    tmp = json.loads(str(ret[12])[27:-10])
+
+    for i in range(len(tmp)):
+        tmp[i]["StandingsU"]=tmp[i]["StandingsUrl"]
+        tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
+
+        tmp[i]["low"]=0
+        tmp[i]["high"]=10000
+
+    return tmp,onlyRated(his)
+
 def Rated(contestName):
     sit = requests.get("https://atcoder.jp/contests/"+contestName)
     data = BeautifulSoup(sit.text,"html.parser")
