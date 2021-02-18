@@ -26,29 +26,42 @@ def getdatas(name):
 
     return Rated(tmp),onlyRated(his)
 
-def Rated(tmp):
-    for i in range(len(tmp)):
-        #tm = tmp[i]["StandingsU"].split(sep="/")
-        #sit = requests.get("https://atcoder.jp/contests/"+tm[2])
-        #data = BeautifulSoup(sit.text,"html.parser")
-        #ret = data.find_all("p")
-        #ret=ret[2].text
-        #ret=ret.split("\n")
-        #ret = ret[2].split()
+def Rated(contestName):
+    sit = requests.get("https://atcoder.jp/contests/"+contestName)
+    data = BeautifulSoup(sit.text,"html.parser")
+    ret = data.find_all("p")
+    ret=ret[2].text
+    ret=ret.split("\n")
+    ret = ret[2].split()
+    low = 0
+    high = 10000
+    if len(ret)==3:
+        low=0
+        high=10000
+    else:
+        if ret[2]=="-":
+            low=0
+            high=int(ret[3])
+        else:
+            low=int(ret[2])
+            high = 10000
+    return low,high
 
-        #if len(ret)==3:
-        #    tmp[i]["low"]=0
-        #    tmp[i]["high"]=10000
-        #else:
-        #    if ret[2]=="-":
-        #        tmp[i]["low"]=0
-        #        tmp[i]["high"]=int(ret[3])
-        #    else:
-        #        tmp[i]["low"]=int(ret[2])
-        #        tmp[i]["high"]=10000
-        tmp[i]["low"]=0
-        tmp[i]["high"]=10000
-    return tmp
+def manycontest():
+    dic = {}
+    for p in range(1,17):
+        sit = requests.get("https://atcoder.jp/contests/archive?page="+str(p))
+        data = BeautifulSoup(sit.text,"html.parser")
+        ret = data.find_all("tr")
+        ans=ret
+        for i in range(len(ans)):
+            sp = str(ans[i]).split(sep="/")
+            if len(sp)>10 and ans[i].text.split(sep="\n")[7]!="-":
+                dic[sp[10].split(sep="\"")[0]]=ans[i].text.split(sep="\n")[7]
+    print(dic)
+    return dic
+
+manycontest()
 
 def onlyRated(his):
     ratedHis = []

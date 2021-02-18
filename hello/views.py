@@ -5,7 +5,7 @@ import os
 import json
 from bs4 import BeautifulSoup
 from .models import Greeting
-from .skr import getdatas,maximizeRate,makeoutputDic
+from .skr import getdatas,maximizeRate,makeoutputDic,manycontest
 
 
 # Create your views here.
@@ -24,6 +24,7 @@ def index(request):
     return vote(request)
 
 def vote(request):
+    manycontest()
     error = " "
     try:
         name = request.POST["username"]
