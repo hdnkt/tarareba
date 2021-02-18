@@ -21,9 +21,32 @@ def getdatas(name):
     tmp = json.loads(str(ret[12])[27:-10])
 
     for i in range(len(tmp)):
+        tmp[i]["StandingsU"]=tmp[i]["StandingsUrl"]
         tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
 
-    return tmp,onlyRated(his)
+    return Rated(tmp),onlyRated(his)
+
+def Rated(tmp):
+    for i in range(len(tmp)):
+        tm = tmp[i]["StandingsU"].split(sep="/")
+        sit = requests.get("https://atcoder.jp/contests/"+tm[2])
+        data = BeautifulSoup(sit.text,"html.parser")
+        ret = data.find_all("p")
+        ret=ret[2].text
+        ret=ret.split("\n")
+        ret = ret[2].split()
+
+        if len(ret)==3:
+            tmp[i]["low"]=0
+            tmp[i]["high"]=10000
+        else:
+            if ret[2]=="-":
+                tmp[i]["low"]=0
+                tmp[i]["high"]=int(ret[3])
+            else:
+                tmp[i]["low"]=int(ret[2])
+                tmp[i]["high"]=10000
+    return tmp
 
 def onlyRated(his):
     ratedHis = []
@@ -44,6 +67,8 @@ def maximizeRate(ratedHis):#単調増加するように選択
     ind = [0]
     for i in range(1,len(ratedHis)):
         pre = ans[len(ans)-1]
+        if pre < tmp[i]["low"] or tmp[i]["high"] < pre:
+            continue
         this = 0.9*(2**(ratedHis[i]["Performance"]/800))
         for j in range(len(now)):
             this+=(2**(now[len(now)-j-1]/800))*(0.9**(j+2))
@@ -83,13 +108,8 @@ def makeoutputDic(ans,ind,tmp):
     ret[0]["OldRating"]=0
     ret[0]["NewRating"]=ans[0]
     for i in range(1,len(ans)):
-        print(ind[i])
+        #print(ind[i])
         ret.append(tmp[ind[i]])
         ret[i]["OldRating"]=ret[i-1]["NewRating"]
         ret[i]["NewRating"]=ans[i]
     return ret
-
-
-#tmp,ratedHis = getdatas("rokahikou")
-#ans,ind=maximizeRate(ratedHis)
-#final = makeoutputDic(ans,ind,tmp)
