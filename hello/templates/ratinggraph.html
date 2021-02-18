@@ -40,8 +40,8 @@
 	<div class="col-md-9 col-sm-12">
 		
 			<h3>一度も冷えなかった{{name}}</h3>
-			これまで参加してきたコンテストのうち、冷えた（参加前と比べてレートが下がった）コンテストを全部なかったことにした場合のレート推移をグラフに表示します。<br>レートの計算は<a href= "https://qiita.com/anqooqie/items/92005e337a0d2569bdbd" >この記事</a>を参考にしました。
-			Rated考慮ボタンを追加(動作重め。青上位か橙上位の人しか関係ないと思います)<br> 2021/02/18
+			これまで参加してきたAtCoderのコンテストのうち、冷えた（参加前と比べてレートが下がった）コンテストを全部なかったことにした場合のレート推移をグラフに表示します。<br>レートの計算は<a href= "https://qiita.com/anqooqie/items/92005e337a0d2569bdbd" >この記事</a>を参考にしました。
+			Rated考慮ボタンを追加(動作重め。2000,2800まわりの人は付けた方がいいかも)<br> 2021/02/18
 			<hr>
 
 			<form action="/vote/" method="post">
@@ -51,7 +51,7 @@
 				<input type="submit" value="表示">
 
 				<p>
-					Rated考慮：<input type="radio" name="sex" value="male" checked="checked">しない
+					Rated考慮(動作重め)：<input type="radio" name="sex" value="male" checked="checked">しない
 					<input type="radio" name="sex" value="female">する
 				</p>
 			</form>
