@@ -60,7 +60,7 @@ def onlyRated(his):
     return ratedHis
 
 
-def maximizeRate(ratedHis):#単調増加するように選択
+def maximizeRate(tmp,ratedHis):#単調増加するように選択
     now = [ratedHis[0]["Performance"]]
     ans = 800*math.log2(2**(now[0]/800))-1200
     ans = [round(helpBeginner(ans))]

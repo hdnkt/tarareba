@@ -38,12 +38,12 @@ def vote(request):
 
     try:
         tmp,ratedHis = getdatas(name)
-        ans,ind=maximizeRate(ratedHis)
+        ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
     except:
         name="hdnkt"
         tmp,ratedHis = getdatas(name)
-        ans,ind=maximizeRate(ratedHis)
+        ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"
 
