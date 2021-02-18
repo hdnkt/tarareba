@@ -27,7 +27,7 @@ def getdatas(name):
     return Rated(tmp),onlyRated(his)
 
 def Rated(tmp):
-    #for i in range(len(tmp)):
+    for i in range(len(tmp)):
         #tm = tmp[i]["StandingsU"].split(sep="/")
         #sit = requests.get("https://atcoder.jp/contests/"+tm[2])
         #data = BeautifulSoup(sit.text,"html.parser")
