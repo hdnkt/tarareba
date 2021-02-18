@@ -13,11 +13,13 @@ def index(request):
     return vote(request)
 
 def result(request,username):
+    r = ""
     error = ""
     name = username
     sex = "male"
     try:
         if sex =="female":
+            r = "r"
             dic=manycontest()
             tmp,ratedHis = getdatas(name,dic)
             ans,ind=maximizeRate(tmp,ratedHis)
@@ -33,9 +35,35 @@ def result(request,username):
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"
 
-    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error})
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
+
+def resultr(request,username):
+    r = ""
+    error = ""
+    name = username
+    sex = "female"
+    try:
+        if sex =="female":
+            r = "r"
+            dic=manycontest()
+            tmp,ratedHis = getdatas(name,dic)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
+        else:
+            tmp,ratedHis = getdatasa(name)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
+    except:
+        name="hdnkt"
+        tmp,ratedHis = getdatasa(name)
+        ans,ind=maximizeRate(tmp,ratedHis)
+        final = makeoutputDic(ans,ind,tmp)
+        error = "入力された名前のユーザーは存在しません。"
+
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
 
 def vote(request):
+    r = ""
     error = " "
     try:
         name = request.POST["username"]
@@ -52,6 +80,7 @@ def vote(request):
 
     try:
         if sex =="female":
+            r = "r"
             dic=manycontest()
             tmp,ratedHis = getdatas(name,dic)
             ans,ind=maximizeRate(tmp,ratedHis)
@@ -67,7 +96,7 @@ def vote(request):
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"
 
-    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error})
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r})
 
 
 def db(request):

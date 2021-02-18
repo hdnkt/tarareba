@@ -19,5 +19,6 @@ urlpatterns = [
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
     path("vote/",hello.views.vote),
-    path("result/<username>",hello.views.result)
+    path("result/<username>",hello.views.result),
+    path("result/<username>/r",hello.views.resultr),
 ]
