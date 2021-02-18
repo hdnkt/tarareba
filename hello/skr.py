@@ -24,17 +24,21 @@ def getdatas(name,dic):
         tmp[i]["StandingsU"]=tmp[i]["StandingsUrl"]
         tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
 
-        reg=dic[tmp[i]["StandingsU"].split(sep="/")[2]].split()
-        if len(reg)==1:
+        try:
+            reg=dic[tmp[i]["StandingsU"].split(sep="/")[2]].split()
+            if len(reg)==1:
+                tmp[i]["low"]=0
+                tmp[i]["high"]=10000
+            else:
+                if reg[0]=="-":
+                    tmp[i]["low"]=0
+                    tmp[i]["high"]=int(reg[1])
+                else:
+                    tmp[i]["low"]=int(reg[0])
+                    tmp[i]["high"]=10000
+        except:
             tmp[i]["low"]=0
             tmp[i]["high"]=10000
-        else:
-            if reg[0]=="-":
-                tmp[i]["low"]=0
-                tmp[i]["high"]=int(reg[1])
-            else:
-                tmp[i]["low"]=int(reg[0])
-                tmp[i]["high"]=10000
 
     return tmp,onlyRated(his)
 
@@ -49,7 +53,6 @@ def getdatasa(name):
     for i in range(len(tmp)):
         tmp[i]["StandingsU"]=tmp[i]["StandingsUrl"]
         tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
-
         tmp[i]["low"]=0
         tmp[i]["high"]=10000
 
@@ -85,9 +88,9 @@ def manycontest():
         ans=ret
         for i in range(len(ans)):
             sp = str(ans[i]).split(sep="/")
+            print(sp)
             if len(sp)>10 and ans[i].text.split(sep="\n")[7]!="-":
                 dic[sp[10].split(sep="\"")[0]]=ans[i].text.split(sep="\n")[7]
-
     return dic
 
 def onlyRated(his):
@@ -158,7 +161,7 @@ def makeoutputDic(ans,ind,tmp):
 
 
 
-name="phocom"
+name="hec"
 dic = manycontest()
 tmp,ratedHis = getdatas(name,dic)
 ans,ind=maximizeRate(tmp,ratedHis)
