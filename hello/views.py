@@ -10,18 +10,30 @@ from .skr import getdatas,maximizeRate,makeoutputDic,manycontest,getdatasa
 
 # Create your views here.
 def index(request):
-    # return HttpResponse('Hello from Python!')
-
-    #レーティンググラフ
-    #return render(request, "ratinggraph.html")
-
-    #ティーポット
-    #r = requests.get('http://httpbin.org/status/418')
-    #print(r.text)
-    #return HttpResponse('<pre>' + r.text + '</pre>')
-
-    #
     return vote(request)
+
+def result(request,username):
+    error = ""
+    name = username
+    sex = "male"
+    try:
+        if sex =="female":
+            dic=manycontest()
+            tmp,ratedHis = getdatas(name,dic)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
+        else:
+            tmp,ratedHis = getdatasa(name)
+            ans,ind=maximizeRate(tmp,ratedHis)
+            final = makeoutputDic(ans,ind,tmp)
+    except:
+        name="hdnkt"
+        tmp,ratedHis = getdatasa(name)
+        ans,ind=maximizeRate(tmp,ratedHis)
+        final = makeoutputDic(ans,ind,tmp)
+        error = "入力された名前のユーザーは存在しません。"
+
+    return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error})
 
 def vote(request):
     error = " "
