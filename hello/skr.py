@@ -27,25 +27,27 @@ def getdatas(name):
     return Rated(tmp),onlyRated(his)
 
 def Rated(tmp):
-    for i in range(len(tmp)):
-        tm = tmp[i]["StandingsU"].split(sep="/")
-        sit = requests.get("https://atcoder.jp/contests/"+tm[2])
-        data = BeautifulSoup(sit.text,"html.parser")
-        ret = data.find_all("p")
-        ret=ret[2].text
-        ret=ret.split("\n")
-        ret = ret[2].split()
+    #for i in range(len(tmp)):
+        #tm = tmp[i]["StandingsU"].split(sep="/")
+        #sit = requests.get("https://atcoder.jp/contests/"+tm[2])
+        #data = BeautifulSoup(sit.text,"html.parser")
+        #ret = data.find_all("p")
+        #ret=ret[2].text
+        #ret=ret.split("\n")
+        #ret = ret[2].split()
 
-        if len(ret)==3:
-            tmp[i]["low"]=0
-            tmp[i]["high"]=10000
-        else:
-            if ret[2]=="-":
-                tmp[i]["low"]=0
-                tmp[i]["high"]=int(ret[3])
-            else:
-                tmp[i]["low"]=int(ret[2])
-                tmp[i]["high"]=10000
+        #if len(ret)==3:
+        #    tmp[i]["low"]=0
+        #    tmp[i]["high"]=10000
+        #else:
+        #    if ret[2]=="-":
+        #        tmp[i]["low"]=0
+        #        tmp[i]["high"]=int(ret[3])
+        #    else:
+        #        tmp[i]["low"]=int(ret[2])
+        #        tmp[i]["high"]=10000
+        tmp[i]["low"]=0
+        tmp[i]["high"]=10000
     return tmp
 
 def onlyRated(his):
