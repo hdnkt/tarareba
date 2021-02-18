@@ -81,14 +81,13 @@ def Rated(contestName):
 
 def manycontest():
     dic = {}
-    for p in range(1,17):
+    for p in range(1,10):
         sit = requests.get("https://atcoder.jp/contests/archive?page="+str(p))
         data = BeautifulSoup(sit.text,"html.parser")
         ret = data.find_all("tr")
         ans=ret
         for i in range(len(ans)):
             sp = str(ans[i]).split(sep="/")
-            print(sp)
             if len(sp)>10 and ans[i].text.split(sep="\n")[7]!="-":
                 dic[sp[10].split(sep="\"")[0]]=ans[i].text.split(sep="\n")[7]
     return dic
