@@ -12,7 +12,7 @@ def helpBeginner(r):
 def rejectReset(n):
     return 1200*(math.sqrt(1-0.81**n)/(1-0.9**n)-1)/(math.sqrt(19)-1)
 
-def getdatas(name):
+def getdatas(name,dic):
     site=requests.get("https://atcoder.jp/users/"+name+"?graph=rating")
     data = BeautifulSoup(site.text,"html.parser")
     #print(data)
@@ -24,7 +24,19 @@ def getdatas(name):
         tmp[i]["StandingsU"]=tmp[i]["StandingsUrl"]
         tmp[i]["StandingsUrl"]="https://atcoder.jp"+tmp[i]["StandingsUrl"]
 
-    return Rated(tmp),onlyRated(his)
+        reg=dic[tmp[i]["StandingsU"].split(sep="/")[2]].split()
+        if len(reg)==1:
+            tmp[i]["low"]=0
+            tmp[i]["high"]=10000
+        else:
+            if reg[0]=="-":
+                tmp[i]["low"]=0
+                tmp[i]["high"]=int(reg[1])
+            else:
+                tmp[i]["low"]=int(reg[0])
+                tmp[i]["high"]=10000
+
+    return tmp,onlyRated(his)
 
 def Rated(contestName):
     sit = requests.get("https://atcoder.jp/contests/"+contestName)
@@ -58,10 +70,8 @@ def manycontest():
             sp = str(ans[i]).split(sep="/")
             if len(sp)>10 and ans[i].text.split(sep="\n")[7]!="-":
                 dic[sp[10].split(sep="\"")[0]]=ans[i].text.split(sep="\n")[7]
-    print(dic)
-    return dic
 
-manycontest()
+    return dic
 
 def onlyRated(his):
     ratedHis = []
@@ -128,3 +138,11 @@ def makeoutputDic(ans,ind,tmp):
         ret[i]["OldRating"]=ret[i-1]["NewRating"]
         ret[i]["NewRating"]=ans[i]
     return ret
+
+
+
+name="phocom"
+dic = manycontest()
+tmp,ratedHis = getdatas(name,dic)
+ans,ind=maximizeRate(tmp,ratedHis)
+final = makeoutputDic(ans,ind,tmp)

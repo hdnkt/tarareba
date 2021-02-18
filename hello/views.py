@@ -24,7 +24,7 @@ def index(request):
     return vote(request)
 
 def vote(request):
-    manycontest()
+    dic=manycontest()
     error = " "
     try:
         name = request.POST["username"]
@@ -38,7 +38,7 @@ def vote(request):
     #data = BeautifulSoup(site.text,"html.parser")
 
     try:
-        tmp,ratedHis = getdatas(name)
+        tmp,ratedHis = getdatas(name,dic)
         ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
     except:
