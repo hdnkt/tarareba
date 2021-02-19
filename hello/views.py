@@ -43,21 +43,23 @@ def last(request,name,sex,r):
             r = "r"
             dic=manycontest()
             tmp,ratedHis = getdatas(name,dic)
+            real = tmp[len(tmp)-1]["NewRating"]
             ans,ind=maximizeRate(tmp,ratedHis)
             final = makeoutputDic(ans,ind,tmp)
         else:
             tmp,ratedHis = getdatasa(name)
+            real = tmp[len(tmp)-1]["NewRating"]
             ans,ind=maximizeRate(tmp,ratedHis)
             final = makeoutputDic(ans,ind,tmp)
     except:
         name="hdnkt"
         tmp,ratedHis = getdatasa(name)
+        real = tmp[len(tmp)-1]["NewRating"]
         ans,ind=maximizeRate(tmp,ratedHis)
         final = makeoutputDic(ans,ind,tmp)
         error = "入力された名前のユーザーは存在しません。"
     
     highest = final[len(final)-1]["NewRating"]
-    real = tmp[len(tmp)-1]["NewRating"]
     dist = "+"+str(highest-real) if highest-real >= 0 else str(highest-real)
 
     return render(request,"ratinggraph.html",{"final":final,"name":name,"error":error,"r":r,"highest":highest,"real":real,"dist":dist})

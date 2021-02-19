@@ -160,8 +160,10 @@ def makeoutputDic(ans,ind,tmp):
 
 
 
-name="hec"
+name="yamunaku"
 dic = manycontest()
 tmp,ratedHis = getdatas(name,dic)
+print(tmp)
 ans,ind=maximizeRate(tmp,ratedHis)
 final = makeoutputDic(ans,ind,tmp)
+print(tmp)
