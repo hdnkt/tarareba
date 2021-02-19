@@ -163,7 +163,12 @@ def makeoutputDic(ans,ind,tmp):
 name="yamunaku"
 dic = manycontest()
 tmp,ratedHis = getdatas(name,dic)
-print(tmp)
 ans,ind=maximizeRate(tmp,ratedHis)
 final = makeoutputDic(ans,ind,tmp)
-print(tmp)
+
+a = [[6,11]]
+b = []
+b.append(a[0])
+b[0][1]=8
+print(a)
+#[{6: 8}]
