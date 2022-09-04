@@ -21,4 +21,5 @@ urlpatterns = [
     path("vote/",hello.views.vote),
     path("result/<username>/",hello.views.result),
     path("result/<username>/r",hello.views.resultr),
+    path("unchi",hello.views.fack),
 ]
